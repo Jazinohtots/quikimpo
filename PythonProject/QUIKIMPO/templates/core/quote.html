@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Get a Free Quote | QuikImpo{% endblock %}
+
+{% block content %}
+
+<!-- Quote Hero -->
+<section class="quote-hero">
+  <div class="container">
+    <h1>Get a Free Shipping Quote</h1>
+    <p>Fill in the details below and our team will respond within 2 business hours.</p>
+  </div>
+</section>
+
+<!-- Quote Form -->
+<section class="quote-section">
+  <div class="container">
+    <div class="quote-grid">
+
+      <!-- Form -->
+      <div class="quote-form-box">
+        <h2>Request a Quote</h2>
+        <form method="POST" action="{% url 'quote' %}">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="full_name" placeholder="John Mwangi" required>
+          </div>
+
+          <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" name="company" placeholder="ABC Imports Ltd">
+          </div>
+
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" placeholder="you@company.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" name="phone" placeholder="+254 7XX XXX XXX" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Origin Country *</label>
+              <input type="text" name="origin" placeholder="e.g. China" required>
+            </div>
+            <div class="form-group">
+              <label>Destination Country *</label>
+              <input type="text" name="destination" placeholder="e.g. Kenya" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Shipment Type *</label>
+              <select name="shipment_type" required>
+                <option value="">-- Select --</option>
+                <option value="air">Air Freight</option>
+                <option value="sea">Sea Freight (FCL)</option>
+                <option value="lcl">Sea Freight (LCL)</option>
+                <option value="road">Road Transport</option>
+                <option value="courier">Express Courier</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Cargo Type</label>
+              <select name="cargo_type">
+                <option value="">-- Select --</option>
+                <option value="general">General Cargo</option>
+                <option value="perishable">Perishable Goods</option>
+                <option value="hazmat">Hazardous Materials</option>
+                <option value="oversized">Oversized / Heavy</option>
+                <option value="electronics">Electronics</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Estimated Weight (kg)</label>
+              <input type="number" name="weight" placeholder="e.g. 500">
+            </div>
+            <div class="form-group">
+              <label>Dimensions (L x W x H cm)</label>
+              <input type="text" name="dimensions" placeholder="e.g. 120 x 80 x 100">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Additional Notes</label>
+            <textarea name="notes" rows="4" placeholder="Any special handling requirements, incoterms preference, deadline, etc."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary btn-full">Submit Quote Request →</button>
+        </form>
+      </div>
+
+      <!-- Why Choose Us Sidebar -->
+      <div class="quote-sidebar">
+        <div class="sidebar-card">
+          <h3>Why QuikImpo?</h3>
+          <ul class="trust-list">
+            <li>✅ Response within 2 hours</li>
+            <li>✅ No hidden fees</li>
+            <li>✅ Door-to-door delivery</li>
+            <li>✅ Real-time cargo tracking</li>
+            <li>✅ Customs clearance included</li>
+            <li>✅ 500+ satisfied clients</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card sidebar-contact">
+          <h3>Prefer to Call?</h3>
+          <p>Our logistics team is available Mon–Sat, 8am–6pm EAT.</p>
+          <a href="tel:+254700000000" class="btn-outline">📞 +254 700 000 000</a>
+          <a href="mailto:quotes@quikimpo.com" class="btn-outline">✉ quotes@quikimpo.com</a>
+        </div>
+
+        <div class="sidebar-card sidebar-track">
+          <h3>Track Existing Shipment</h3>
+          <input type="text" placeholder="Enter tracking number...">
+          <button class="btn-primary" style="width:100%; margin-top:10px;">Track Now</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Success Message (shown after submission) -->
+{% if messages %}
+<div class="flash-messages">
+  {% for message in messages %}
+    <div class="flash {{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

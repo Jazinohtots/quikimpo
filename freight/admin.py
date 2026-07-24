@@ -1,25 +1,19 @@
 from django.contrib import admin
-from .models import QuoteRequest, ContactMessage
-
+from .models import QuoteRequest, ContactMessage, FAQ
 
 @admin.register(QuoteRequest)
 class QuoteRequestAdmin(admin.ModelAdmin):
-    list_display  = ('full_name', 'company', 'email', 'phone',
-                     'origin', 'destination', 'shipment_type', 'submitted_at', 'is_responded')
-    list_filter   = ('shipment_type', 'is_responded', 'submitted_at')
-    search_fields = ('full_name', 'email', 'company', 'origin', 'destination')
-    readonly_fields = ('submitted_at',)
-    list_editable = ('is_responded',)
-    ordering      = ('-submitted_at',)
-
+    list_display = ('full_name', 'email', 'phone', 'origin', 'destination', 'created_at')
+    search_fields = ('full_name', 'email', 'phone', 'origin', 'destination')
+    list_filter = ('created_at',)
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display  = ('full_name', 'email', 'subject', 'submitted_at', 'is_read')
-    list_filter   = ('subject', 'is_read', 'submitted_at')
-    search_fields = ('full_name', 'email', 'subject')
-    readonly_fields = ('submitted_at',)
-    list_editable = ('is_read',)
-    ordering      = ('-submitted_at',)
+    list_display = ('full_name', 'email', 'phone', 'company', 'created_at')
+    search_fields = ('full_name', 'email', 'phone', 'company')
+    list_filter = ('created_at',)
 
-    
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question',)
+    search_fields = ('question',)

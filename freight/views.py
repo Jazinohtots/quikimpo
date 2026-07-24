@@ -1,8 +1,3 @@
-
-
-from .models import QuoteRequest, ContactMessage
-
-import os
 import json
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -11,6 +6,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import anthropic
+
+from .models import QuoteRequest, ContactMessage
 
 
 def home(request):
@@ -55,7 +52,8 @@ Dimensions:   {dimensions}
 Notes:        {notes}
         """
 
-        try:# Save to database
+        try:
+            # Save to database
             QuoteRequest.objects.create(
                 full_name=full_name, company=company, email=email,
                 phone=phone, origin=origin, destination=destination,
@@ -71,10 +69,10 @@ Notes:        {notes}
                 fail_silently=True,
             )
             messages.success(request, '✅ Quote submitted! We will contact you within 2 hours.')
-        except Exception as e:
-            messages.error(request, '⚠ Submission failed. Please email us directly at joashodhiamboreagan@gmail.com'
+        except Exception:
+            messages.error(request, '⚠ Submission failed. Please email us directly at joashodhiamboreagan@gmail.com')
 
-
+        return redirect('quote')
 
     return render(request, 'quote.html')
 
@@ -113,13 +111,17 @@ Message:
                 fail_silently=True,
             )
             messages.success(request, '✅ Message sent! We will get back to you shortly.')
-        except Exception as e:
+        except Exception:
             messages.error(request, '⚠ Could not send message. Please email us directly.')
-        .')
 
         return redirect('contact')
 
     return render(request, 'contact.html')
+
+
+def tracking(request):
+    return render(request, 'tracking.html')
+
 
 @csrf_exempt
 def ai_chat(request):
@@ -128,12 +130,12 @@ def ai_chat(request):
             data         = json.loads(request.body)
             user_message = data.get('message', '')
 
-            client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+            client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
             response = client.messages.create(
                 model="claude-sonnet-4-6",
                 max_tokens=400,
-                system="""You are the QuikImpo AI assistant for a freight forwarding and shipping 
+                system="""You are the QuikImpo AI assistant for a freight forwarding and shipping
 company serving Africa, especially East Africa (Kenya, Uganda, Tanzania, Rwanda).
 
 You help customers with:
@@ -149,7 +151,7 @@ You help customers with:
 Your rules:
 - Be concise, professional, and friendly
 - If the user asks for a quote, ask for: origin country, destination, cargo type, and weight
-- If they want to be contacted by the team, ask for their name, email, and phone number, 
+- If they want to be contacted by the team, ask for their name, email, and phone number,
   then confirm a team member will reach out within 2 hours
 - Never invent specific prices — direct them to the quote form for accurate pricing
 - Keep answers under 4 sentences where possible
@@ -160,12 +162,9 @@ Your rules:
             reply = response.content[0].text
             return JsonResponse({'reply': reply})
 
-        except Exception as e:
+        except Exception:
             return JsonResponse({
                 'reply': 'Sorry, I am having trouble right now. Please email quotes@quikimpo.com or call us directly.'
             }, status=200)
 
     return JsonResponse({'reply': 'Invalid request'}, status=400)
-
-def tracking(request):
-    return render(request, 'tracking.html')

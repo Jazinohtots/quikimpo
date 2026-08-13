@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero">
+    <picture class="hero-media">
+        <source srcset="{% static 'images/hero.webp' %}" type="image/webp" media="(min-width: 640px)">
+        <source srcset="{% static 'images/hero-mobile.webp' %}" type="image/webp" media="(max-width: 639px)">
+        <source srcset="{% static 'images/hero.jpg' %}" type="image/jpeg" media="(min-width: 640px)">
+        <img src="{% static 'images/hero.jpg' %}" alt="About QuikImpo" class="hero-img">
+    </picture>
+
+    <div class="hero-content">
+        <div class="container">
+            <h1>About QuikImpo</h1>
+            <p>
+                QuikImpo is a freight forwarding and logistics company serving businesses that need reliable,
+                organized, and professional cargo movement solutions in Kenya and beyond.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>
+                    We help clients move cargo through air freight, sea freight, customs clearance,
+                    warehousing, and shipping support. Our goal is to make freight handling simpler,
+                    faster, and more transparent.
+                </p>
+
+                <h2>Our Mission</h2>
+                <p>
+                    To give clients a smooth freight forwarding experience through clear communication,
+                    dependable service, and practical logistics support.
+                </p>
+
+                <h2>Why Choose Us</h2>
+                <ul>
+                    <li>Fast and responsive customer support.</li>
+                    <li>Professional handling of freight requests.</li>
+                    <li>Clear quote process and communication.</li>
+                    <li>Services designed for Kenyan and international trade needs.</li>
+                </ul>
+            </div>
+
+            <div class="about-card">
+                <h3>Our Services</h3>
+                <ul>
+                    <li>Air Freight</li>
+                    <li>Sea Freight</li>
+                    <li>Land Freight</li>
+                    <li>Customs Clearance</li>
+                    <li>Warehousing</li>
+                    <li>Shipment Tracking</li>
+                </ul>
+
+                <a href="/quote/" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">
+                    Request a Quote
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

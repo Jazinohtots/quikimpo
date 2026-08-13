@@ -1,0 +1,120 @@
+[
+  {
+    "model": "freight.shipment",
+    "pk": 1,
+    "fields": {
+      "tracking_number": "QKI-2026-00123",
+      "quote_request": null,
+      "origin": "Shanghai, China",
+      "destination": "Nairobi, Kenya",
+      "shipment_type": "sea",
+      "status": "in_transit",
+      "eta": "2026-08-28",
+      "created_at": "2026-07-10T09:00:00Z",
+      "updated_at": "2026-07-16T11:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 1,
+    "fields": {
+      "shipment": 1,
+      "status": "confirmed",
+      "location": "Nairobi, Kenya",
+      "note": "Order confirmed and booking created.",
+      "occurred_at": "2026-07-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 2,
+    "fields": {
+      "shipment": 1,
+      "status": "picked_up",
+      "location": "Shanghai, China",
+      "note": "Cargo picked up from supplier warehouse.",
+      "occurred_at": "2026-07-13T14:30:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 3,
+    "fields": {
+      "shipment": 1,
+      "status": "in_transit",
+      "location": "Shanghai Port, China",
+      "note": "Vessel departed Shanghai Port.",
+      "occurred_at": "2026-07-16T11:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipment",
+    "pk": 2,
+    "fields": {
+      "tracking_number": "QKI-2026-00456",
+      "quote_request": null,
+      "origin": "Dubai, UAE",
+      "destination": "Kampala, Uganda",
+      "shipment_type": "air",
+      "status": "delivered",
+      "eta": "2026-07-20",
+      "created_at": "2026-07-14T10:00:00Z",
+      "updated_at": "2026-07-20T13:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 4,
+    "fields": {
+      "shipment": 2,
+      "status": "confirmed",
+      "location": "Kampala, Uganda",
+      "note": "Order confirmed.",
+      "occurred_at": "2026-07-14T10:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 5,
+    "fields": {
+      "shipment": 2,
+      "status": "picked_up",
+      "location": "Dubai, UAE",
+      "note": "Cargo picked up.",
+      "occurred_at": "2026-07-15T15:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 6,
+    "fields": {
+      "shipment": 2,
+      "status": "in_transit",
+      "location": "Dubai, UAE",
+      "note": "Departed Dubai International Airport.",
+      "occurred_at": "2026-07-16T22:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 7,
+    "fields": {
+      "shipment": 2,
+      "status": "customs",
+      "location": "Entebbe, Uganda",
+      "note": "Customs clearance completed.",
+      "occurred_at": "2026-07-18T09:00:00Z"
+    }
+  },
+  {
+    "model": "freight.shipmentevent",
+    "pk": 8,
+    "fields": {
+      "shipment": 2,
+      "status": "delivered",
+      "location": "Kampala, Uganda",
+      "note": "Delivered to recipient.",
+      "occurred_at": "2026-07-20T13:00:00Z"
+    }
+  }
+]

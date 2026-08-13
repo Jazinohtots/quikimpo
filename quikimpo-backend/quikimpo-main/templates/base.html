@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QuikImpo Freight & Logistics — Fast, reliable shipping and freight forwarding across Africa and worldwide.">
+  <title>{% block title %}QuikImpo Freight & Logistics{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span>📞 +254 700 000 000</span>
+      <span>✉ quotes@quikimpo.com</span>
+      <span>⏱ Mon–Sat 8am–6pm EAT</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#">LinkedIn</a>
+      <a href="#">Facebook</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+
+    <a href="{% url 'home' %}" class="logo-3d-wrap">
+      <span class="logo-3d">
+        <span class="l-q">Q</span><span class="l-u">u</span><span
+        class="l-i">i</span><span class="l-k">k</span><span
+        class="l-i2">I</span><span class="l-m">m</span><span
+        class="l-p">p</span><span class="l-o">o</span>
+      </span>
+      <span class="logo-tag">FREIGHT & LOGISTICS</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="{% url 'home' %}"     class="nav-link">Home</a></li>
+      <li><a href="{% url 'about' %}"    class="nav-link">About</a></li>
+      <li><a href="{% url 'services' %}" class="nav-link">Services</a></li>
+      <li><a href="{% url 'tracking' %}" class="nav-link">Track Shipment</a></li>
+      <li><a href="{% url 'contact' %}"  class="nav-link">Contact</a></li>
+      <li><a href="{% url 'quote' %}"    class="nav-link nav-cta">Get a Quote</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+{% if messages %}
+<div class="container flash-messages">
+  {% for message in messages %}
+    <div class="flash {{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <a href="{% url 'home' %}" class="logo-3d-wrap">
+          <span class="logo-3d logo-3d-sm">
+            <span class="l-q">Q</span><span class="l-u">u</span><span
+            class="l-i">i</span><span class="l-k">k</span><span
+            class="l-i2">I</span><span class="l-m">m</span><span
+            class="l-p">p</span><span class="l-o">o</span>
+          </span>
+          <span class="logo-tag">FREIGHT & LOGISTICS</span>
+        </a>
+        <p class="footer-desc">
+          Fast, reliable freight forwarding and customs clearance across Africa and worldwide. Your cargo, our commitment.
+        </p>
+        <div class="footer-social">
+          <a href="#" class="fsocial">in</a>
+          <a href="#" class="fsocial">fb</a>
+          <a href="#" class="fsocial">ig</a>
+          <a href="#" class="fsocial">wa</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About Us</a></li>
+          <li><a href="{% url 'services' %}">Our Services</a></li>
+          <li><a href="{% url 'tracking' %}">Track Shipment</a></li>
+          <li><a href="{% url 'quote' %}">Get a Quote</a></li>
+          <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Our Services</h4>
+        <ul>
+          <li><a href="{% url 'services' %}">Air Freight</a></li>
+          <li><a href="{% url 'services' %}">Sea Freight (FCL/LCL)</a></li>
+          <li><a href="{% url 'services' %}">Road Transport</a></li>
+          <li><a href="{% url 'services' %}">Customs Clearance</a></li>
+          <li><a href="{% url 'services' %}">Warehousing</a></li>
+          <li><a href="{% url 'services' %}">Express Courier</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <span class="fc-icon">📍</span>
+            <span>Westlands Business Park,<br>Nairobi, Kenya</span>
+          </li>
+          <li>
+            <span class="fc-icon">📞</span>
+            <span>+254 700 000 000</span>
+          </li>
+          <li>
+            <span class="fc-icon">✉</span>
+            <span>quotes@quikimpo.com</span>
+          </li>
+          <li>
+            <span class="fc-icon">⏱</span>
+            <span>Mon–Sat, 8am–6pm EAT</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {% now "Y" %} QuikImpo Freight & Logistics. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ── AI CHAT WIDGET ── -->
+<div id="chat-bubble" onclick="toggleChat()" title="Chat with QuikImpo AI">💬</div>
+
+<div id="chat-window" class="chat-hidden">
+  <div class="chat-header">
+    <span>🤖 QuikImpo AI Assistant</span>
+    <button onclick="toggleChat()" aria-label="Close chat">✕</button>
+  </div>
+  <div id="chat-messages">
+    <div class="bot-msg">
+      Hi! I'm the QuikImpo AI assistant. I can answer shipping questions or help you get a quote. What do you need?
+    </div>
+  </div>
+  <div class="chat-input-row">
+    {% csrf_token %}
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="Ask about shipping, rates, customs..."
+    >
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

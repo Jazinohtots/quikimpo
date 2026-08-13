@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-hero">
+    {% load static %}
+    <picture class="hero-media">
+        <source srcset="{% static 'images/hero.webp' %}" type="image/webp" media="(min-width: 640px)">
+        <source srcset="{% static 'images/hero-mobile.webp' %}" type="image/webp" media="(max-width: 639px)">
+        <source srcset="{% static 'images/hero.jpg' %}" type="image/jpeg" media="(min-width: 640px)">
+        <img src="{% static 'images/hero.jpg' %}" alt="Our Services" class="hero-img">
+    </picture>
+
+    <div class="hero-content">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>
+                QuikImpo provides freight forwarding and logistics services designed to help clients move cargo
+                with confidence, speed, and clear communication.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="container">
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Air Freight</h3>
+                <p>
+                    Fast and secure air cargo solutions for urgent shipments that need timely delivery.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Sea Freight</h3>
+                <p>
+                    Affordable shipping options for bulk cargo, containers, and large international shipments.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Land Freight</h3>
+                <p>
+                    Road transport support for cargo moving within Kenya and across regional borders.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Customs Clearance</h3>
+                <p>
+                    Assistance with documentation, compliance, and clearance steps to reduce delays.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Warehousing</h3>
+                <p>
+                    Secure storage and handling of goods before final shipment or delivery.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Shipment Tracking</h3>
+                <p>
+                    Track cargo status and stay updated throughout the shipping process.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-section" style="padding-top: 0;">
+    <div class="container" style="text-align: center;">
+        <h2 style="margin-bottom: 15px; color: #0f172a;">Need a custom shipping solution?</h2>
+        <p style="margin-bottom: 20px; color: #374151;">
+            Send us your cargo details and we will prepare a quote based on your route, cargo type, and shipping needs.
+        </p>
+        <a href="/quote/" class="btn btn-primary">Request a Quote</a>
+    </div>
+</section>
+{% endblock %}

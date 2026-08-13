@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Track Your Shipment | QuikImpo{% endblock %}
+
+{% block content %}
+
+<!-- Tracking Hero -->
+<section class="tracking-hero">
+  <div class="container">
+    <h1>Track Your Shipment</h1>
+    <p>Enter your tracking number below to get real-time updates on your cargo.</p>
+
+    <div class="tracking-bar">
+      <input
+        type="text"
+        id="tracking-input"
+        placeholder="Enter tracking number e.g. QKI-2024-00123"
+        maxlength="30"
+      >
+      <button onclick="trackShipment()">Track Now →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Tracking Result -->
+<section class="tracking-section">
+  <div class="container">
+
+    <!-- Placeholder shown before search -->
+    <div id="track-placeholder" class="track-placeholder">
+      <div class="placeholder-icon">📦</div>
+      <h3>Enter your tracking number above</h3>
+      <p>Your tracking number was sent to your email when your booking was confirmed.<br>
+         Format: <strong>QKI-YEAR-XXXXX</strong> e.g. QKI-2024-00123</p>
+    </div>
+
+    <!-- Result shown after search -->
+    <div id="track-result" class="track-result" style="display:none;">
+
+      <div class="track-summary">
+        <div class="track-summary-item">
+          <span class="ts-label">Tracking No.</span>
+          <span class="ts-value" id="res-tracking">—</span>
+        </div>
+        <div class="track-summary-item">
+          <span class="ts-label">Status</span>
+          <span class="ts-value status-badge" id="res-status">—</span>
+        </div>
+        <div class="track-summary-item">
+          <span class="ts-label">Origin</span>
+          <span class="ts-value" id="res-origin">—</span>
+        </div>
+        <div class="track-summary-item">
+          <span class="ts-label">Destination</span>
+          <span class="ts-value" id="res-destination">—</span>
+        </div>
+        <div class="track-summary-item">
+          <span class="ts-label">Est. Delivery</span>
+          <span class="ts-value" id="res-eta">—</span>
+        </div>
+        <div class="track-summary-item">
+          <span class="ts-label">Shipment Type</span>
+          <span class="ts-value" id="res-type">—</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="track-progress-wrap">
+        <h3>Shipment Progress</h3>
+        <div class="track-steps">
+          <div class="track-step" id="step-1">
+            <div class="step-dot"></div>
+            <div class="step-label">Order Confirmed</div>
+          </div>
+          <div class="track-line"></div>
+          <div class="track-step" id="step-2">
+            <div class="step-dot"></div>
+            <div class="step-label">Picked Up</div>
+          </div>
+          <div class="track-line"></div>
+          <div class="track-step" id="step-3">
+            <div class="step-dot"></div>
+            <div class="step-label">In Transit</div>
+          </div>
+          <div class="track-line"></div>
+          <div class="track-step" id="step-4">
+            <div class="step-dot"></div>
+            <div class="step-label">Customs Clearance</div>
+          </div>
+          <div class="track-line"></div>
+          <div class="track-step" id="step-5">
+            <div class="step-dot"></div>
+            <div class="step-label">Out for Delivery</div>
+          </div>
+          <div class="track-line"></div>
+          <div class="track-step" id="step-6">
+            <div class="step-dot"></div>
+            <div class="step-label">Delivered</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="track-timeline">
+        <h3>Shipment History</h3>
+        <div id="timeline-items"></div>
+      </div>
+
+    </div>
+
+    <!-- Not Found -->
+    <div id="track-notfound" class="track-notfound" style="display:none;">
+      <div class="placeholder-icon">❌</div>
+      <h3>Tracking number not found</h3>
+      <p>Please check the number and try again, or <a href="{% url 'contact' %}">contact our support team</a>.</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// Demo data — replace with real API/database calls later
+const demoShipments = {
+  'QKI-2024-00123': {
+    tracking: 'QKI-2024-00123',
+    status: 'In Transit',
+    origin: 'Shanghai, China',
+    destination: 'Nairobi, Kenya',
+    eta: '28 Jun 2024',
+    type: 'Sea Freight (FCL)',
+    step: 3,
+    timeline: [
+      { date: '10 Jun 2024', time: '09:00', event: 'Order confirmed and booking created', location: 'Nairobi, Kenya' },
+      { date: '13 Jun 2024', time: '14:30', event: 'Cargo picked up from supplier warehouse', location: 'Shanghai, China' },
+      { date: '15 Jun 2024', time: '08:00', event: 'Cargo loaded onto vessel MSC DIANA', location: 'Shanghai Port, China' },
+      { date: '16 Jun 2024', time: '11:00', event: 'Vessel departed Shanghai Port', location: 'Shanghai, China' },
+    ]
+  },
+  'QKI-2024-00456': {
+    tracking: 'QKI-2024-00456',
+    status: 'Delivered',
+    origin: 'Dubai, UAE',
+    destination: 'Kampala, Uganda',
+    eta: '20 Jun 2024',
+    type: 'Air Freight',
+    step: 6,
+    timeline: [
+      { date: '14 Jun 2024', time: '10:00', event: 'Order confirmed', location: 'Kampala, Uganda' },
+      { date: '15 Jun 2024', time: '15:00', event: 'Cargo picked up', location: 'Dubai, UAE' },
+      { date: '16 Jun 2024', time: '22:00', event: 'Departed Dubai International Airport', location: 'Dubai, UAE' },
+      { date: '17 Jun 2024', time: '06:00', event: 'Arrived Entebbe International Airport', location: 'Entebbe, Uganda' },
+      { date: '18 Jun 2024', time: '09:00', event: 'Customs clearance completed', location: 'Entebbe, Uganda' },
+      { date: '20 Jun 2024', time: '13:00', event: '✅ Delivered to recipient', location: 'Kampala, Uganda' },
+    ]
+  }
+};
+
+function trackShipment() {
+  const input = document.getElementById('tracking-input').value.trim().toUpperCase();
+
+  document.getElementById('track-placeholder').style.display = 'none';
+  document.getElementById('track-result').style.display     = 'none';
+  document.getElementById('track-notfound').style.display   = 'none';
+
+  if (!input) return;
+
+  const shipment = demoShipments[input];
+
+  if (!shipment) {
+    document.getElementById('track-notfound').style.display = 'block';
+    return;
+  }
+
+  // Fill summary
+  document.getElementById('res-tracking').textContent    = shipment.tracking;
+  document.getElementById('res-status').textContent      = shipment.status;
+  document.getElementById('res-origin').textContent      = shipment.origin;
+  document.getElementById('res-destination').textContent = shipment.destination;
+  document.getElementById('res-eta').textContent         = shipment.eta;
+  document.getElementById('res-type').textContent        = shipment.type;
+
+  // Status badge colour
+  const badge = document.getElementById('res-status');
+  badge.className = 'ts-value status-badge';
+  if (shipment.status === 'Delivered')       badge.classList.add('status-delivered');
+  else if (shipment.status === 'In Transit') badge.classList.add('status-transit');
+  else                                       badge.classList.add('status-pending');
+
+  // Progress steps
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('step-' + i);
+    el.classList.remove('step-done', 'step-active');
+    if (i < shipment.step)       el.classList.add('step-done');
+    else if (i === shipment.step) el.classList.add('step-active');
+  }
+
+  // Timeline
+  const tl = document.getElementById('timeline-items');
+  tl.innerHTML = '';
+  shipment.timeline.forEach(item => {
+    tl.innerHTML += `
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">${item.date} &nbsp;·&nbsp; ${item.time}</div>
+          <div class="tl-event">${item.event}</div>
+          <div class="tl-loc">📍 ${item.location}</div>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('track-result').style.display = 'block';
+}
+
+// Allow Enter key
+document.getElementById('tracking-input')
+  .addEventListener('keydown', e => { if (e.key === 'Enter') trackShipment(); });
+</script>
+
+{% endblock %}

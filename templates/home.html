@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}QuikImpo — Freight Forwarding & Logistics Across East Africa{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>QuikImpo Freight Forwarding & Logistics</h1>
+        <p>Fast, reliable shipping and freight forwarding solutions for businesses in Kenya and beyond.</p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'quote' %}" class="btn btn-primary">Get a Quote</a>
+            <a href="{% url 'contact' %}" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section fade-in">
+    <div class="container track-summary">
+        <div class="track-summary-item">
+            <span class="ts-label">Shipments Delivered</span>
+            <span class="ts-value" data-counter="500">0+</span>
+        </div>
+        <div class="track-summary-item">
+            <span class="ts-label">Countries Served</span>
+            <span class="ts-value" data-counter="4">0+</span>
+        </div>
+        <div class="track-summary-item">
+            <span class="ts-label">On-Time Delivery Rate</span>
+            <span class="ts-value" data-counter="98">0+</span>
+        </div>
+    </div>
+</section>
+
+<section class="services-preview fade-in">
+    <div class="container">
+        <h2>Our Services</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Air Freight</h3>
+                <p>Fast cargo movement for urgent shipments.</p>
+            </div>
+            <div class="service-card">
+                <h3>Sea Freight</h3>
+                <p>Cost-effective shipping for large cargo.</p>
+            </div>
+            <div class="service-card">
+                <h3>Customs Clearance</h3>
+                <p>Support with documentation and border processing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-preview fade-in">
+    <div class="container">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h3>How long does sea freight take from China to Kenya?</h3>
+            <p>Sea freight from major Chinese ports to Mombasa typically takes 25–35 days, depending on the shipping line and whether the vessel makes direct or transshipment stops.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Do you handle customs clearance?</h3>
+            <p>Yes — we prepare and file all KRA documentation on your behalf, so your cargo clears customs without you needing to visit the port or border yourself.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Can I track my shipment online?</h3>
+            <p>Yes, use your tracking number on our <a href="{% url 'tracking' %}">Track Shipment</a> page for live status updates from pickup to delivery.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What documents do I need to ship cargo?</h3>
+            <p>At minimum, a commercial invoice, packing list, and bill of lading or airway bill. We'll tell you if your specific cargo type needs anything additional.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

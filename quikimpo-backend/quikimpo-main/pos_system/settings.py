@@ -16,6 +16,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.railway.app',
     '.up.railway.app',
+    '.onrender.com',
+    'quikimpo.vercel.app',
+    'vercel.app',
 ]
 
 INSTALLED_APPS = [
@@ -75,11 +78,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pos_system.wsgi.application'
 
 # ── Database
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-    }
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
+if DATABASE_URL and DATABASE_URL.startswith(('postgres', 'mysql', 'sqlite')):
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+    except Exception as e:
+        print(f"Database URL parsing error: {e}. Using SQLite instead.")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     DATABASES = {
         'default': {

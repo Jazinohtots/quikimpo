@@ -3,7 +3,7 @@ services:
     name: quikimpo-backend
     runtime: python
     pythonVersion: 3.11
-    buildCommand: pip install -r quikimpo-backend/quikimpo-main/requirements.txt
+    buildCommand: cd quikimpo-backend/quikimpo-main && pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py loaddata freight/fixtures/demo_shipments.json || true
     startCommand: cd quikimpo-backend/quikimpo-main && python -m gunicorn pos_system.wsgi:application --log-file - --bind 0.0.0.0:$PORT
     envVars:
       - key: DEBUG

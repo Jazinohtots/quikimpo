@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: quikimpo-backend
+    runtime: python
+    pythonVersion: 3.11
+    buildCommand: pip install -r quikimpo-backend/quikimpo-main/requirements.txt
+    startCommand: cd quikimpo-backend/quikimpo-main && python -m gunicorn pos_system.wsgi:application --log-file - --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: PYTHON_VERSION
+        value: 3.11
+    routes:
+      - path: /
+        matchType: prefix
+  
+  - type: pserv
+    name: quikimpo-postgres
+    runtime: postgres15
+    ipAllowList: []
+    postgreSQLVersion: "15"

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Linkedin, Facebook } from "lucide-react";
 import Logo from "./Logo";
+import WhatsAppIcon from "./WhatsAppIcon";
+import { services } from "../data/services";
+import { contact } from "../data/contact";
 
 export default function Footer() {
   return (
@@ -12,6 +15,35 @@ export default function Footer() {
             Fast, reliable freight forwarding and customs clearance across
             Africa and worldwide. Your cargo, our commitment.
           </p>
+          <div className="mt-4 flex items-center gap-3">
+            <a
+              href={contact.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
+            >
+              <Linkedin size={16} />
+            </a>
+            <a
+              href={contact.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
+            >
+              <Facebook size={16} />
+            </a>
+            <a
+              href={contact.whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
+            >
+              <WhatsAppIcon size={16} />
+            </a>
+          </div>
         </div>
 
         <div>
@@ -29,12 +61,11 @@ export default function Footer() {
         <div>
           <h4 className="mb-3 text-sm font-bold text-white">Our Services</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/services" className="hover:text-sky">Air Freight</Link></li>
-            <li><Link to="/services" className="hover:text-sky">Sea Freight (FCL/LCL)</Link></li>
-            <li><Link to="/services" className="hover:text-sky">Road Transport</Link></li>
-            <li><Link to="/services" className="hover:text-sky">Customs Clearance</Link></li>
-            <li><Link to="/services" className="hover:text-sky">Warehousing</Link></li>
-            <li><Link to="/services" className="hover:text-sky">Express Courier</Link></li>
+            {services.map((s) => (
+              <li key={s.slug}>
+                <Link to={`/services#${s.slug}`} className="hover:text-sky">{s.title}</Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -43,13 +74,36 @@ export default function Footer() {
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 shrink-0" />
-              Westlands Business Park, Nairobi, Kenya
+              <span>
+                {contact.addressLines.map((line) => (
+                  <span key={line} className="block">{line}</span>
+                ))}
+              </span>
             </li>
             <li className="flex items-center gap-2">
               <Phone size={16} /> +254 700 000 000
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={16} /> quotes@quikimpo.com
+              <Mail size={16} />
+              <a href={`mailto:${contact.email}`} className="hover:text-sky">{contact.email}</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <WhatsAppIcon size={16} />
+              <a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
+                {contact.whatsappNumber}
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Linkedin size={16} />
+              <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
+                {contact.linkedinLabel}
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Facebook size={16} />
+              <a href={contact.facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
+                {contact.facebookLabel}
+              </a>
             </li>
             <li className="flex items-center gap-2">
               <Clock size={16} /> Mon–Sat, 8am–6pm EAT

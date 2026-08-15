@@ -164,7 +164,7 @@ Your rules:
 
         except Exception:
             return JsonResponse({
-                'reply': 'Sorry, I am having trouble right now. Please email quotes@quikimpo.com or call us directly.'
+                'reply': 'Sorry, I am having trouble right now. Please email info@majuufreigthforwarders.com or call us directly.'
             }, status=200)
 
     return JsonResponse({'reply': 'Invalid request'}, status=400)

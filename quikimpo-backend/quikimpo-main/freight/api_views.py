@@ -147,5 +147,5 @@ Your rules:
 
         except Exception:
             return Response({
-                'reply': 'Sorry, I am having trouble right now. Please email quotes@quikimpo.com or call us directly.'
+                'reply': 'Sorry, I am having trouble right now. Please email info@majuufreigthforwarders.com or call us directly.'
             })

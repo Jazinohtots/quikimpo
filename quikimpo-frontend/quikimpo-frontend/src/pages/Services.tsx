@@ -12,10 +12,38 @@ export default function Services() {
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <div key={s.title} className="rounded-lg border border-line bg-white p-6 shadow-sm">
-            <div className="text-3xl">{s.icon}</div>
-            <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
-            <p className="mt-2 text-sm text-text/70">{s.description}</p>
+          <a key={s.slug} href={`#${s.slug}`} className="overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md">
+            <img src={s.image} alt={s.title} className="h-36 w-full object-cover" loading="lazy" />
+            <div className="p-6">
+              <div className="text-3xl">{s.icon}</div>
+              <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
+              <p className="mt-2 text-sm text-text/70">{s.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div className="mt-20 space-y-16">
+        {services.map((s, i) => (
+          <div
+            key={s.slug}
+            id={s.slug}
+            className={`scroll-mt-24 grid items-center gap-8 md:grid-cols-2 ${
+              i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
+            }`}
+          >
+            <img src={s.image} alt={s.title} className="h-72 w-full rounded-lg object-cover shadow-sm" loading="lazy" />
+            <div>
+              <div className="text-3xl">{s.icon}</div>
+              <h2 className="mt-2 text-2xl font-bold text-ink">{s.title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-text/70">{s.longDescription}</p>
+              <Link
+                to="/quote"
+                className="mt-5 inline-block rounded-md bg-sky px-5 py-2.5 text-sm font-bold text-ink transition hover:bg-skyDark hover:text-white"
+              >
+                Get a Quote for {s.title}
+              </Link>
+            </div>
           </div>
         ))}
       </div>

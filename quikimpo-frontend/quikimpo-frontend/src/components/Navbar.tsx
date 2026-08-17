@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Phone, Mail, Clock, ChevronDown, Linkedin, Facebook } from "lucide-react";
+import { Menu, X, Mail, Clock, ChevronDown, Linkedin, Facebook } from "lucide-react";
 import Logo from "./Logo";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { services } from "../data/services";
@@ -23,9 +23,6 @@ export default function Navbar() {
       <div className="hidden bg-ink text-xs text-white/70 md:block">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
           <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5">
-              <Phone size={12} /> +254 700 000 000
-            </span>
             <span className="flex items-center gap-1.5">
               <Mail size={12} /> {contact.email}
             </span>
@@ -90,6 +87,7 @@ export default function Navbar() {
                   <Link
                     key={s.slug}
                     to={`/services#${s.slug}`}
+                    onClick={() => setOpen(false)}
                     className="flex items-center gap-2 px-4 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-sky"
                   >
                     <span>{s.icon}</span> {s.title}

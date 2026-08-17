@@ -48,6 +48,7 @@ npm-debug.log
 yarn-error.log
 dist/
 .parcel-cache/
+.vite/
 
 # Python virtual environment
 venv/

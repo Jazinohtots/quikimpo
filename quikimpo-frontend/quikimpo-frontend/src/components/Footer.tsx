@@ -81,7 +81,10 @@ export default function Footer() {
               </span>
             </li>
             <li className="flex items-center gap-2">
-              <Phone size={16} /> +254 700 000 000
+              <Phone size={16} />
+              <a href={`tel:${contact.whatsappNumber}`} className="hover:text-sky">
+                {contact.whatsappNumber}
+              </a>
             </li>
             <li className="flex items-center gap-2">
               <Mail size={16} />

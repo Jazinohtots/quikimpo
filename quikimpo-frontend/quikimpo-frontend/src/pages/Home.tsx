@@ -203,7 +203,7 @@ export default function Home() {
           {services.map((s) => (
             <Link
               key={s.slug}
-              to={`/services#${s.slug}`}
+              to={`/services?service=${s.slug}`}
               className="group overflow-hidden rounded-xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="overflow-hidden"><img src={s.image} alt={s.title} className="h-48 w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" /></div>

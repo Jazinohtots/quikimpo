@@ -1,7 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { services } from "../data/services";
 
 export default function Services() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const serviceSlug = new URLSearchParams(location.search).get("service") || location.hash.slice(1);
+    if (serviceSlug) {
+      document.getElementById(serviceSlug)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [location.hash, location.search]);
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
       <h1 className="text-center text-4xl font-extrabold text-ink">Our Services</h1>
@@ -12,14 +22,14 @@ export default function Services() {
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <a key={s.slug} href={`#${s.slug}`} className="overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md">
+          <Link key={s.slug} to={`/services?service=${s.slug}`} className="overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md">
             <img src={s.image} alt={s.title} className="h-36 w-full object-cover" loading="lazy" />
             <div className="p-6">
               <div className="text-3xl">{s.icon}</div>
               <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
               <p className="mt-2 text-sm text-text/70">{s.description}</p>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
 

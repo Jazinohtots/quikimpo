@@ -61,3 +61,8 @@ export interface ChatMessage {
   role: "user" | "bot";
   text: string;
 }
+
+export interface ChatHistoryMessage {
+  role: "user" | "assistant";
+  content: string;
+}

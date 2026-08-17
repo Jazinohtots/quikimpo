@@ -1,10 +1,12 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 import anthropic
+import re
 
 from .models import QuoteRequest, ContactMessage, Shipment, FAQ
 from .serializers import (
@@ -13,6 +15,73 @@ from .serializers import (
     ShipmentSerializer,
     FAQSerializer,
 )
+
+
+AI_SYSTEM_PROMPT = """You are QuikImpo's Logistics Assistant.
+
+You represent QuikImpo, a Nairobi-based freight forwarding and logistics company serving Kenya, East Africa, China, the UAE, Europe, and international trade routes. The company stays involved across bookings, documentation, customs, transportation, warehousing, shipment visibility, and final delivery coordination.
+
+Help visitors understand air freight, sea freight (FCL and LCL), road freight and cross-border transportation, customs clearance, warehousing and distribution, shipment tracking, import/export documentation, and general freight forwarding. Be professional, human, practical, concise, and transparent. Prefer the verified company and FAQ context supplied below.
+
+Never invent prices, duties, shipment statuses, delivery dates, airline or container availability, regulatory requirements, or capabilities. Never claim a shipment is booked, cleared, delivered, delayed, released, or in transit unless the supplied tracking context confirms it. Never present estimates as guarantees. Requirements and transit times vary by cargo, origin, destination, route, season, and applicable regulations; tell the visitor that the QuikImpo team should confirm shipment-specific details.
+
+If a visitor wants a quote, ask for cargo type, origin, destination, weight, dimensions or package count if known, preferred freight method, and timeline, then direct them to /quote. If they want human support, provide WhatsApp +254722281742 and info@majuufreigthforwarders.com. Keep answers focused and avoid unrelated topics.
+
+Verified QuikImpo services:
+- Air Freight: time-sensitive cargo, booking, export documentation, cargo handling, customs clearance, arrival processing, and onward transportation; smaller shipments may be consolidated where suitable.
+- Sea Freight: FCL and LCL, origin collection, consolidation, export and shipping documentation, vessel booking, port handling, customs clearance, and inland delivery. Transit times vary.
+- Road Freight: inland and cross-border transportation through Kenya, Uganda, Tanzania, Rwanda, and wider East Africa, with cargo collection, documentation, border coordination, and delivery through logistics partners.
+- Customs Clearance: customs declarations, HS classification, import documentation, duty and tax assessment, verification, regulatory compliance, cargo release, and PVoC/CoC coordination where applicable.
+- Warehousing and Distribution: bonded and non-bonded storage, inventory coordination, consolidation, cross-docking, pick-and-pack, and distribution support where available. Do not promise duty deferral or facility ownership.
+- Shipment Tracking: visibility across collection, departure, transit, arrival, port or airport handling, customs clearance, and final delivery when tracking information is available. Do not claim GPS or real-time status unless supplied.
+
+{faq_context}
+{tracking_context}"""
+
+
+def _client_ip(request):
+    return request.META.get('REMOTE_ADDR', 'unknown')
+
+
+def _within_chat_limit(request):
+    key = f"ai-chat:{_client_ip(request)}"
+    count = cache.get(key, 0)
+    if count >= 10:
+        return False
+    cache.set(key, count + 1, timeout=60)
+    return True
+
+
+def _faq_context():
+    faqs = FAQ.objects.all()[:12]
+    if not faqs:
+        return "No FAQ records are currently available."
+    return "Relevant FAQ records:\n" + "\n".join(
+        f"Q: {faq.question}\nA: {faq.answer}" for faq in faqs
+    )
+
+
+def _tracking_context(message):
+    tracking_number = re.search(r'\bQ(?:I|K)I?[-\s]?\d{4}[-\s]?\d{3,}\b', message, re.IGNORECASE)
+    if not tracking_number:
+        return "No tracking number was supplied. Do not invent tracking details."
+
+    normalized = re.sub(r'\s+', '-', tracking_number.group(0).upper())
+    shipment = Shipment.objects.prefetch_related('events').filter(
+        tracking_number=normalized
+    ).first()
+    if not shipment:
+        return f"Tracking number {normalized} was not found in the backend. Say that it could not be found and direct the visitor to the tracking page or human support."
+
+    events = '; '.join(
+        f"{event.get_status_display()} at {event.location} ({event.occurred_at.isoformat()})"
+        for event in shipment.events.all()
+    )
+    return (
+        f"Verified tracking context for {shipment.tracking_number}: status={shipment.get_status_display()}, "
+        f"origin={shipment.origin}, destination={shipment.destination}, eta={shipment.eta or 'not available'}, "
+        f"events={events or 'none recorded'}."
+    )
 
 
 class QuoteCreateAPIView(APIView):
@@ -105,41 +174,40 @@ class FAQListAPIView(generics.ListAPIView):
 
 
 class AIChatAPIView(APIView):
-    """POST /api/ai-chat/ — same system prompt and behaviour as views.ai_chat."""
+    """POST /api/ai-chat/ — QuikImpo logistics assistant."""
 
     def post(self, request):
-        user_message = request.data.get('message', '')
+        user_message = request.data.get('message', '').strip()
+        history = request.data.get('history', [])
         if not user_message:
-            return Response({'reply': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'Message is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if len(user_message) > 2000:
+            return Response({'detail': 'Message must be 2,000 characters or fewer.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not isinstance(history, list) or len(history) > 12:
+            return Response({'detail': 'Conversation history is invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not _within_chat_limit(request):
+            return Response({'detail': 'Please wait a moment before sending another message.'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+
+        messages = []
+        for item in history[-12:]:
+            if not isinstance(item, dict) or item.get('role') not in ('user', 'assistant'):
+                continue
+            content = str(item.get('content', '')).strip()
+            if content and len(content) <= 2000:
+                messages.append({'role': item['role'], 'content': content})
+        messages.append({'role': 'user', 'content': user_message})
 
         try:
             client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
             response = client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=400,
-                system="""You are the QuikImpo AI assistant for a freight forwarding and shipping
-company serving Africa, especially East Africa (Kenya, Uganda, Tanzania, Rwanda).
-
-You help customers with:
-- Shipping quotes and estimated costs
-- Transit times for air vs sea freight
-- Customs clearance process in Kenya
-- Cargo tracking
-- Dangerous goods and special cargo handling
-- Incoterms explained simply (FOB, CIF, EXW, DDP)
-- Door-to-door delivery options
-- General logistics and import/export questions
-
-Your rules:
-- Be concise, professional, and friendly
-- If the user asks for a quote, ask for: origin country, destination, cargo type, and weight
-- If they want to be contacted by the team, ask for their name, email, and phone number,
-  then confirm a team member will reach out within 2 hours
-- Never invent specific prices — direct them to the quote form for accurate pricing
-- Keep answers under 4 sentences where possible
-- If asked something unrelated to shipping or logistics, politely redirect""",
-                messages=[{"role": "user", "content": user_message}]
+                max_tokens=600,
+                system=AI_SYSTEM_PROMPT.format(
+                    faq_context=_faq_context(),
+                    tracking_context=_tracking_context(user_message),
+                ),
+                messages=messages,
             )
 
             reply = response.content[0].text
@@ -147,5 +215,5 @@ Your rules:
 
         except Exception:
             return Response({
-                'reply': 'Sorry, I am having trouble right now. Please email info@majuufreigthforwarders.com or call us directly.'
-            })
+                'detail': 'The assistant is temporarily unavailable. Please contact QuikImpo on WhatsApp at +254722281742 or email info@majuufreigthforwarders.com.'
+            }, status=status.HTTP_503_SERVICE_UNAVAILABLE)

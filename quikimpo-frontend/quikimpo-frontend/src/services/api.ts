@@ -3,6 +3,7 @@ import {
   ContactMessagePayload,
   Shipment,
   FAQ,
+  ChatHistoryMessage,
 } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
@@ -54,10 +55,10 @@ export function fetchFAQs() {
   return request<FAQ[]>("/faqs/");
 }
 
-export function sendChatMessage(message: string) {
+export function sendChatMessage(message: string, history: ChatHistoryMessage[] = []) {
   return request<{ reply: string }>("/ai-chat/", {
     method: "POST",
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, history }),
   });
 }
 

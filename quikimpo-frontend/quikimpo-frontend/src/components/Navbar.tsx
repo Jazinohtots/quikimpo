@@ -86,7 +86,7 @@ export default function Navbar() {
                 {services.map((s) => (
                   <Link
                     key={s.slug}
-                    to={`/services#${s.slug}`}
+                    to={`/services?service=${s.slug}`}
                     onClick={() => setOpen(false)}
                     className="flex items-center gap-2 px-4 py-2 text-sm text-white/90 hover:bg-white/10 hover:text-sky"
                   >
@@ -146,7 +146,7 @@ export default function Navbar() {
                   {services.map((s) => (
                     <Link
                       key={s.slug}
-                      to={`/services#${s.slug}`}
+                      to={`/services?service=${s.slug}`}
                       className="text-sm text-white/70 hover:text-sky"
                       onClick={() => setOpen(false)}
                     >

@@ -195,6 +195,9 @@ export default function Footer() {
             <a href="#" className="hover:text-white">Cookie Policy</a>
           </div>
         </div>
+        <p className="mt-4 text-center text-sm font-semibold tracking-wide text-white/70">
+          Odhisule Creations
+        </p>
       </div>
     </footer>
   );

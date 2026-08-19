@@ -8,6 +8,7 @@ import Services from "./pages/Services";
 import Quote from "./pages/Quote";
 import Contact from "./pages/Contact";
 import Tracking from "./pages/Tracking";
+import ClientReviews from "./pages/ClientReviews";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/quote" element={<Quote />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/tracking" element={<Tracking />} />
+          <Route path="/reviews" element={<ClientReviews />} />
         </Routes>
       </main>
       <Footer />

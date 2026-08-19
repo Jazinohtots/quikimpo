@@ -15,6 +15,7 @@ import { services } from "../data/services";
 import { useEffect, useState } from "react";
 import { fetchFAQs } from "../services/api";
 import { FAQ } from "../types";
+import TestimonialsSection from "../components/TestimonialsSection";
 
 const fallbackFaqs: FAQ[] = [
   {
@@ -90,9 +91,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/95 to-ink/80" />
         <div className="relative mx-auto grid min-h-[620px] max-w-6xl items-center gap-12 px-6 py-20 md:min-h-[680px] md:grid-cols-[1.05fr_0.95fr] md:py-24">
           <div className="max-w-3xl text-white">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                <Globe2 size={16} /> Kenya • East Africa • China • UAE • Global
-              </div>
               <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl md:text-6xl">
                 Move Your Cargo<span className="block text-sky">With Confidence.</span>
               </h1>
@@ -107,16 +105,11 @@ export default function Home() {
                   Track a Shipment
                 </Link>
               </div>
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/70">
-                <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-sky" /> End-to-end coordination</span>
-                <span className="flex items-center gap-2"><Clock3 size={16} className="text-sky" /> Clear shipment communication</span>
-                <span className="flex items-center gap-2"><Globe2 size={16} className="text-sky" /> International trade routes</span>
-              </div>
           </div>
 
           <div className="relative mx-auto w-full max-w-xl md:ml-auto">
             <img
-              src="/Home1.png"
+              src="/World connectivity.jpg"
               alt="Global shipping routes connecting businesses around the world"
               className="h-[280px] w-full rounded-2xl border border-white/15 object-cover shadow-2xl shadow-black/30 sm:h-[360px] md:h-[440px]"
               onError={(event) => { event.currentTarget.src = "/hero.jpg"; }}
@@ -130,7 +123,7 @@ export default function Home() {
       </section>
 
       {/* Mission and vision */}
-      <section className="bg-paper py-20 md:py-24"><div className="mx-auto max-w-6xl px-6"><div className="grid gap-6 md:grid-cols-2"><div className="rounded-xl border border-line bg-white p-8 md:p-10"><p className="text-sm font-bold uppercase tracking-[0.18em] text-sky">Our Mission</p><h2 className="mt-3 text-2xl font-extrabold text-ink md:text-3xl">Making global trade easier to navigate.</h2><p className="mt-5 leading-relaxed text-text/70">Our mission is to simplify the movement of goods across Kenya, Africa, and the world by building logistics solutions around the people and businesses we serve. We combine local knowledge, dependable partnerships, technology, and disciplined execution to help our clients move cargo efficiently, navigate complex processes, and stay informed throughout the journey. Every shipment is an opportunity for us to earn trust, solve problems, and make international trade feel more accessible.</p></div><div className="rounded-xl bg-ink p-8 text-white md:p-10"><p className="text-sm font-bold uppercase tracking-[0.18em] text-sky">Our Vision</p><h2 className="mt-3 text-2xl font-extrabold md:text-3xl">Connecting African enterprise to the world.</h2><p className="mt-5 leading-relaxed text-white/70">We envision QuikImpo as a bridge between African enterprise and the global marketplace—a logistics partner that helps ideas, products, and opportunities move beyond borders. Our ambition is to build a smarter and more connected freight network where businesses can ship with greater visibility, respond to change with confidence, and reach new markets without logistics becoming a barrier to growth.</p></div></div></div></section>
+      <section className="bg-paper py-20 md:py-24"><div className="mx-auto max-w-6xl px-6"><div className="grid gap-6 md:grid-cols-2"><div className="rounded-xl border border-line bg-white p-8 md:p-10"><p className="text-sm font-bold uppercase tracking-[0.18em] text-sky">Our Mission</p><h2 className="mt-3 text-2xl font-extrabold text-ink md:text-3xl">Making every shipment simpler, smarter, and more reliable.</h2><p className="mt-5 leading-relaxed text-text/70">We help businesses move cargo across borders with confidence through local expertise, technology, and dependable logistics.</p></div><div className="rounded-xl bg-ink p-8 text-white md:p-10"><p className="text-sm font-bold uppercase tracking-[0.18em] text-sky">Our Vision</p><h2 className="mt-3 text-2xl font-extrabold md:text-3xl">Connecting Africa to opportunity, one shipment at a time.</h2><p className="mt-5 leading-relaxed text-white/70">We aim to make global trade more accessible, visible, and seamless for African businesses.</p></div></div></div></section>
 
       {/* Trust strip */}
       <section className="border-b border-line bg-white">
@@ -238,6 +231,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      <TestimonialsSection />
 
       {/* Final CTA */}
       <section className="bg-sky py-16"><div className="mx-auto max-w-5xl px-6 text-center"><h2 className="text-3xl font-extrabold text-ink md:text-4xl">Ready to move your cargo?</h2><p className="mx-auto mt-4 max-w-2xl leading-relaxed text-ink/70">Tell us where your shipment is coming from, where it needs to go, and what you are moving. Our team can help you determine the right freight solution.</p><div className="mt-7 flex flex-wrap justify-center gap-4"><Link to="/quote" className="inline-flex items-center gap-2 rounded-md bg-ink px-7 py-3.5 font-bold text-white transition hover:bg-ink/90">Get a Free Quote <ArrowRight size={18} /></Link><Link to="/contact" className="inline-flex items-center gap-2 rounded-md border border-ink/20 px-7 py-3.5 font-bold text-ink transition hover:bg-white/30">Talk to QuikImpo</Link></div></div></section>

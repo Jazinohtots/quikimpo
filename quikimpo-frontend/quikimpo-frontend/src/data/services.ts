@@ -38,8 +38,8 @@ export const services: ServiceItem[] = [
     icon: "🚛",
     title: "Road Freight",
     description: "Cross-border road transport connecting Kenya, Uganda, Tanzania, and Rwanda with reliable transit times.",
-    image: "/Road F 1.png",
-    detailImage: "/Road F 2.png",
+    image: "/Road F R 2.jpg",
+    detailImage: "/Road F R 1.jpg",
     longDescription:
       "QuikImpo coordinates road transportation, inland freight, and cross-border cargo movement through a network of transporters, clearing agents, and logistics partners serving Kenya, Uganda, Tanzania, Rwanda, and the wider East African region.\n\nOur network supports cargo moving between major cities, from ports and airports to final destinations, and across international borders. We coordinate cargo collection, loading, transport documentation, customs and border clearance, border processing, and final delivery through the relevant logistics partners.\n\nRather than simply assigning cargo to a truck and leaving the rest to the transporter, our team coordinates the different parties involved in the shipment and keeps clients informed about important stages of the journey. Where tracking and specialized transportation services are available, additional visibility and handling requirements can be arranged for suitable cargo.\n\nFor cross-border shipments, proper documentation and advance clearance preparation can make a significant difference to delivery times. Customs requirements, inspections, incomplete paperwork, and congestion at border points can all affect the movement of cargo. QuikImpo works with the relevant clearing and logistics partners to prepare the required documentation and coordinate border processes before the shipment reaches the next stage.\n\nFrom Kenya–Uganda and Kenya–Tanzania routes to wider East African destinations, we provide a connected road freight solution that brings transportation, customs, and final delivery together.",
   },
@@ -58,7 +58,7 @@ export const services: ServiceItem[] = [
     icon: "🏭",
     title: "Warehousing",
     description: "Secure short and long-term storage near key ports, with inventory management and cross-docking.",
-    image: "/Warehouse 1.png",
+    image: "/Warehouse 1.jpg",
     detailImage: "/Warehouse 2.png",
     longDescription:
       "QuikImpo coordinates bonded and non-bonded warehousing, cargo storage, inventory management, consolidation, cross-docking, pick-and-pack, and distribution support through its logistics network, depending on the requirements of each shipment.\n\nOur warehousing solutions give importers and growing businesses greater flexibility in how and when inventory moves. Cargo can be received, documented, organized, stored, consolidated, and prepared for onward transportation according to the requirements of the business.\n\nWhere bonded warehousing is applicable, eligible goods can remain under customs control until they are released according to the relevant customs requirements. This can give businesses additional flexibility when managing imported inventory and coordinating the movement of goods into the market.\n\nFor companies supplying multiple locations, combining warehousing with transportation can simplify inventory movement and reduce unnecessary handling. Where available, inventory coordination and digital records can also provide better visibility of stock as goods move through the warehouse.\n\nRather than treating storage as an isolated service, QuikImpo connects warehousing with freight forwarding, customs clearance, inland transportation, and distribution. This gives businesses one coordinated logistics network for managing cargo from arrival through storage and onward delivery.",

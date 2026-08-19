@@ -6,7 +6,7 @@ export const contact = {
   linkedinUrl: "https://www.linkedin.com/in/reaganodhiambo19",
   linkedinLabel: "reaganodhiambo19",
   facebookUrl: "https://www.facebook.com/joashodhiambo",
-  facebookLabel: "joashodhiambo",
+  facebookLabel: "Jazinoh Joash",
   addressLines: [
     "Outering Road off Thika Superhighway",
     "P.O. Box Private Bag, Nairobi",

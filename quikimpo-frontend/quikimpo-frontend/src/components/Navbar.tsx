@@ -9,6 +9,7 @@ import { contact } from "../data/contact";
 const links = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
+  { label: "Reviews", to: "/reviews" },
   { label: "Track Shipment", to: "/tracking" },
   { label: "Contact", to: "/contact" },
 ];

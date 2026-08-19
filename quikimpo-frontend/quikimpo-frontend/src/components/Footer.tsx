@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone, Mail, Clock, Linkedin, Facebook } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Linkedin, Facebook, Globe2 } from "lucide-react";
 import Logo from "./Logo";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { services } from "../data/services";
@@ -15,6 +15,76 @@ export default function Footer() {
             Fast, reliable freight forwarding and customs clearance across
             Africa and worldwide. Your cargo, our commitment.
           </p>
+          <div className="mt-4 rounded-full border border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
+            <div className="marquee">
+              <div className="marquee-content text-sm font-medium text-white/80">
+                <span className="flex items-center gap-3 pr-8">
+                  <Globe2 size={16} className="shrink-0" />
+                  <span>Kenya</span>
+                  <span className="text-white/40">•</span>
+                  <span>China</span>
+                  <span className="text-white/40">•</span>
+                  <span>India</span>
+                  <span className="text-white/40">•</span>
+                  <span>UAE</span>
+                  <span className="text-white/40">•</span>
+                  <span>Thailand</span>
+                  <span className="text-white/40">•</span>
+                  <span>Singapore</span>
+                  <span className="text-white/40">•</span>
+                  <span>Malaysia</span>
+                  <span className="text-white/40">•</span>
+                  <span>USA</span>
+                  <span className="text-white/40">•</span>
+                  <span>UK</span>
+                  <span className="text-white/40">•</span>
+                  <span>Germany</span>
+                  <span className="text-white/40">•</span>
+                  <span>Tanzania</span>
+                  <span className="text-white/40">•</span>
+                  <span>Uganda</span>
+                  <span className="text-white/40">•</span>
+                  <span>Rwanda</span>
+                  <span className="text-white/40">•</span>
+                  <span>Ethiopia</span>
+                  <span className="text-white/40">•</span>
+                  <span>Global</span>
+                </span>
+                <span className="flex items-center gap-3 pr-8">
+                  <Globe2 size={16} className="shrink-0" />
+                  <span>Kenya</span>
+                  <span className="text-white/40">•</span>
+                  <span>China</span>
+                  <span className="text-white/40">•</span>
+                  <span>India</span>
+                  <span className="text-white/40">•</span>
+                  <span>UAE</span>
+                  <span className="text-white/40">•</span>
+                  <span>Thailand</span>
+                  <span className="text-white/40">•</span>
+                  <span>Singapore</span>
+                  <span className="text-white/40">•</span>
+                  <span>Malaysia</span>
+                  <span className="text-white/40">•</span>
+                  <span>USA</span>
+                  <span className="text-white/40">•</span>
+                  <span>UK</span>
+                  <span className="text-white/40">•</span>
+                  <span>Germany</span>
+                  <span className="text-white/40">•</span>
+                  <span>Tanzania</span>
+                  <span className="text-white/40">•</span>
+                  <span>Uganda</span>
+                  <span className="text-white/40">•</span>
+                  <span>Rwanda</span>
+                  <span className="text-white/40">•</span>
+                  <span>Ethiopia</span>
+                  <span className="text-white/40">•</span>
+                  <span>Global</span>
+                </span>
+              </div>
+            </div>
+          </div>
           <div className="mt-4 flex items-center gap-3">
             <a
               href={contact.linkedinUrl}
@@ -52,6 +122,7 @@ export default function Footer() {
             <li><Link to="/" className="hover:text-sky">Home</Link></li>
             <li><Link to="/about" className="hover:text-sky">About Us</Link></li>
             <li><Link to="/services" className="hover:text-sky">Our Services</Link></li>
+            <li><Link to="/reviews" className="hover:text-sky">Reviews</Link></li>
             <li><Link to="/tracking" className="hover:text-sky">Track Shipment</Link></li>
             <li><Link to="/quote" className="hover:text-sky">Get a Quote</Link></li>
             <li><Link to="/contact" className="hover:text-sky">Contact Us</Link></li>

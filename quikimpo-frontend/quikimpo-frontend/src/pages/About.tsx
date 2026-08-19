@@ -26,29 +26,14 @@ export default function About() {
         <div>
           <h2 className="text-2xl font-bold text-ink">Our Mission</h2>
           <p className="mt-3 text-text/70">
-           To make cross-border trade simple, transparent, and fair for
-           every business that relies on it — whether that's a
-           first-time importer bringing in a single container or an
-           established trader moving cargo every week. We do this by
-           pairing honest, upfront pricing with hands-on customs and
-           logistics expertise. Every shipment is an opportunity for
-           us to earn trust, solve problems, and make international
-           trade feel more accessible.
+            Making every shipment simpler, smarter, and more reliable. We help businesses move cargo across borders with confidence through local expertise, technology, and dependable logistics.
           </p>
         </div>
 
         <div>
           <h2 className="text-2xl font-bold text-ink">Our Vision</h2>
           <p className="mt-3 text-text/70">
-            Our vision is to become a trusted logistics partner connecting
-            businesses across Africa and beyond to opportunities around the world.
-            We envision a future where moving goods across borders is no longer
-            defined by uncertainty, delays, or complicated processes, but by visibility,
-            reliability, and confidence.
-            Through technology, strong partnerships, local expertise, and a deep
-            understanding of our clients' needs, we aim to build a logistics network that
-            helps businesses grow beyond their borders
-            and makes global trade more accessible from Africa.
+            Connecting Africa to opportunity, one shipment at a time. We aim to make global trade more accessible, visible, and seamless for African businesses.
           </p>
         </div>
 

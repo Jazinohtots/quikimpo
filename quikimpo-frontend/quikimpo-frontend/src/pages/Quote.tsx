@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { submitQuote } from "../services/api";
 import { QuoteRequestPayload } from "../types";
+import { contact } from "../data/contact";
 
 const initialForm: QuoteRequestPayload = {
   full_name: "",
@@ -33,7 +34,7 @@ export default function Quote() {
       setStatus("success");
       setForm(initialForm);
     } catch {
-      setFeedback("⚠ Submission failed. Please email us directly at joashodhiamboreagan@gmail.com");
+      setFeedback(` Submission failed. Please email us directly at ${contact.email}`);
       setStatus("error");
     }
   };

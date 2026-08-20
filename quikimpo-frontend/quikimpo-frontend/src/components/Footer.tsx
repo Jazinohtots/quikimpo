@@ -162,6 +162,10 @@ export default function Footer() {
               <a href={`mailto:${contact.email}`} className="hover:text-sky">{contact.email}</a>
             </li>
             <li className="flex items-center gap-2">
+              <Mail size={16} />
+              <a href={`mailto:${contact.gmailEmail}`} className="hover:text-sky">{contact.gmailEmail}</a>
+            </li>
+            <li className="flex items-center gap-2">
               <WhatsAppIcon size={16} />
               <a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
                 {contact.whatsappNumber}

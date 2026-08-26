@@ -70,7 +70,7 @@ Notes:        {notes}
             )
             messages.success(request, '✅ Quote submitted! We will contact you within 2 hours.')
         except Exception:
-            messages.error(request, '⚠ Submission failed. Please email us directly at joashodhiamboreagan@gmail.com')
+            messages.error(request, '⚠ Submission failed. Please email us directly at quikimpofreightlogistics@gmail.com')
 
         return redirect('quote')
 

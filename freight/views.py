@@ -70,7 +70,7 @@ Notes:        {notes}
             )
             messages.success(request, '✅ Quote submitted! We will contact you within 2 hours.')
         except Exception:
-            messages.error(request, '⚠ Submission failed. Please email us directly at joashodhiamboreagan@gmail.com')
+            messages.error(request, '⚠ Submission failed. Please email us directly at quikimpofreightlogistics@gmail.com')
 
         return redirect('quote')
 
@@ -164,7 +164,7 @@ Your rules:
 
         except Exception:
             return JsonResponse({
-                'reply': 'Sorry, I am having trouble right now. Please email quotes@quikimpo.com or call us directly.'
+                'reply': 'Sorry, I am having trouble right now. Please email quikimpofreightlogistics@gmail.com or call us directly.'
             }, status=200)
 
     return JsonResponse({'reply': 'Invalid request'}, status=400)

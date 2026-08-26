@@ -1,7 +1,7 @@
 // Single source of truth for contact/social details used in Navbar, Footer, and Contact page.
 export const contact = {
+  headerEmail: "quotes@quickimpo.com",
   email: "quikimpofreightlogistics@gmail.com",
-  gmailEmail: "quikimpofreightlogistics@gmail.com",
   whatsappNumber: "+254705371173",
   whatsappLink: "https://wa.me/254705371173",
   linkedinUrl: "https://www.linkedin.com/in/reaganodhiambo19",

@@ -22,16 +22,14 @@ export default function Navbar() {
     <>
       {/* Top bar — mirrors templates/base.html .topbar */}
       <div className="hidden bg-ink text-xs text-white/70 md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
-          <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5">
-              <Mail size={12} /> {contact.email}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Clock size={12} /> Mon–Sat 8am–6pm EAT
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-6 py-2">
+          <span className="flex items-center gap-1.5">
+            <Mail size={12} /> {contact.headerEmail}
+          </span>
+          <span className="flex items-center justify-self-center gap-1.5">
+            <Clock size={12} /> Mon–Sat 8am–6pm EAT
+          </span>
+          <div className="flex justify-self-end gap-4">
             <a
               href={contact.linkedinUrl}
               target="_blank"

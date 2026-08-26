@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY') or os.getenv('DJANGO_SECRET_KEY') or 'djang
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [
+DEFAULT_ALLOWED_HOSTS = ','.join([
     'localhost',
     '127.0.0.1',
     '.railway.app',
@@ -19,6 +19,14 @@ ALLOWED_HOSTS = [
     '.onrender.com',
     'quikimpo.vercel.app',
     'vercel.app',
+    'quikimpofreightlogistics.co.ke',
+    'www.quikimpofreightlogistics.co.ke',
+    'api.quikimpofreightlogistics.co.ke',
+])
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv('ALLOWED_HOSTS', DEFAULT_ALLOWED_HOSTS).split(',')
+    if host.strip()
 ]
 
 INSTALLED_APPS = [
@@ -54,10 +62,28 @@ ROOT_URLCONF = 'pos_system.urls'
 CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
-        'CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173'
+        'CORS_ALLOWED_ORIGINS',
+        'http://localhost:5173,http://127.0.0.1:5173,https://quikimpofreightlogistics.co.ke,https://www.quikimpofreightlogistics.co.ke',
     ).split(',')
     if origin.strip()
 ]
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        'CSRF_TRUSTED_ORIGINS',
+        'https://quikimpofreightlogistics.co.ke,https://www.quikimpofreightlogistics.co.ke,https://api.quikimpofreightlogistics.co.ke',
+    ).split(',')
+    if origin.strip()
+]
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
+    SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '31536000'))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 TEMPLATES = [
     {

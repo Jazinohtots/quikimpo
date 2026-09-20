@@ -10,6 +10,32 @@ and API are deployed separately:
 | React website | `https://quikimpofreightlogistics.co.ke` | `public_html` |
 | Django API | `https://api.quikimpofreightlogistics.co.ke` | Setup Python App application root |
 
+### Rehosting an existing live site
+
+Do **not** start with an empty database if the current live site already has
+quote requests, contact messages, users, or shipment records. Rehost the
+application by deploying the code and pointing it at the existing production
+database.
+
+Before changing anything in cPanel:
+
+1. Export a database backup from the database tool that currently manages the
+    live database.
+2. Record the current database engine, database name, hostname or socket path,
+    port, and database username. Do not record the password in this repository
+    or in this guide.
+3. Copy the current cPanel environment variables to a private password manager.
+4. Keep the existing database running while the replacement API application is
+    configured and tested.
+5. Only use a new empty database when intentionally launching a clean site and
+    accepting that existing production data will not be available there.
+
+The repository does not hardcode PostgreSQL, MySQL, a Unix socket, or any
+database password. [settings.py](quikimpo-backend/quikimpo-main/pos_system/settings.py)
+reads `DATABASE_URL` from the environment and parses it with
+`dj_database_url`. The actual cPanel environment variable is therefore the
+source of truth for the live database engine.
+
 ### 1. Prepare the domain and subdomain
 
 1. In **cPanel > Domains**, confirm the main domain document root is
@@ -59,9 +85,35 @@ EMAIL_HOST_PASSWORD=<Gmail app password>
 ANTHROPIC_API_KEY=<Anthropic API key>
 ```
 
-Create the database and database user in **MySQL Databases**, assign the user
-to the database with full application privileges, and then use those real
-credentials for `DATABASE_URL`.
+### Database choice and `DATABASE_URL`
+
+Keep the current engine during a rehost. Do not migrate PostgreSQL to MySQL
+just because cPanel exposes a MySQL Database Wizard; a database-engine change
+is a separate migration project requiring an export, compatibility testing,
+and a planned cutover.
+
+For a new installation, use the database engine that your cPanel account
+actually provides and whose Python driver can be installed in the selected
+Python application:
+
+- **PostgreSQL:** use the account's existing PostgreSQL service and a
+    `postgres://` or `postgresql://` URL.
+- **MySQL/MariaDB:** create the database and user in **MySQL Databases**, grant
+    the user privileges, install a supported MySQL driver such as `mysqlclient`,
+    and use a `mysql://` URL.
+
+Set the complete connection string only in **Setup Python App** as
+`DATABASE_URL`. Example shapes, with placeholders rather than real values:
+
+```text
+postgresql://DATABASE_USER:URL_ENCODED_PASSWORD@DATABASE_HOST:5432/DATABASE_NAME
+mysql://DATABASE_USER:URL_ENCODED_PASSWORD@DATABASE_HOST:3306/DATABASE_NAME
+```
+
+If the database password contains URL-reserved characters such as `@`, `:`,
+`/`, `?`, `#`, or `%`, URL-encode the password before placing it in the URL.
+Avoid setting database credentials through shell commands; cPanel's environment
+variable panel prevents shell parsing problems with characters such as `!`.
 
 ### 4. Install and initialize Django
 
@@ -120,6 +172,20 @@ folder.
 2. Rebuild the frontend with the same `VITE_API_BASE_URL` command and replace
     the contents of `public_html` with the new `dist/` contents.
 3. Repeat the verification steps above.
+
+### Rotating an exposed credential
+
+If a database password has ever been entered in a tracked file, chat, ticket,
+or screenshot, treat it as exposed:
+
+1. Change the password in the cPanel database management tool.
+2. Update the `DATABASE_URL` value in **Setup Python App** with the new,
+    URL-encoded password.
+3. Restart the Python application.
+4. Run `python manage.py check` and submit one test quote to confirm the API
+    can read and write data.
+5. Remove the old password from any local files and deployment notes. Never
+    commit it to Git.
 
 ## What to do with the current main-domain Python app
 
@@ -249,7 +315,11 @@ EMAIL_HOST_PASSWORD=<Gmail app password>
 ANTHROPIC_API_KEY=<Anthropic API key>
 ```
 
-Create the database and user in **MySQL Databases** first. `DATABASE_URL`, database username, password, and database name are cPanel values; obtain them there instead of inventing them.
+For a new MySQL/MariaDB installation, create the database and user in **MySQL
+Databases** first. For an existing PostgreSQL deployment, retain its current
+service and use its existing connection details. In both cases, `DATABASE_URL`,
+database username, password, and database name are cPanel values; obtain them
+from the active database service instead of inventing them.
 
 ### Restart and test the API
 

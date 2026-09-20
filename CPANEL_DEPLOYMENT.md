@@ -401,3 +401,20 @@ The frontend build already copies [public/.htaccess](quikimpo-frontend/quikimpo-
 3. Restart the Python app after changing environment variables.
 4. Confirm the API certificate works. A browser may surface SSL or failed-network issues as CORS errors.
 5. Inspect the browser Network tab: the request must go to `https://api.quikimpofreightlogistics.co.ke/api/...`, not to `localhost`.
+
+### A form request returns `200` HTML but does not save data
+
+This means the frontend called the React site instead of the Django API. Apache
+then returned `index.html` through the SPA rewrite rule, which is a successful
+HTML response but not an API response.
+
+1. In browser Developer Tools, inspect the failed request URL. A quote request
+    must be `https://api.quikimpofreightlogistics.co.ke/api/quote/`.
+2. It must **not** be `https://quikimpofreightlogistics.co.ke/quote/` or
+    `https://quikimpofreightlogistics.co.ke/api/quote/`.
+3. In the frontend project, set
+    `VITE_API_BASE_URL=https://api.quikimpofreightlogistics.co.ke/api` in
+    `.env.production` before building.
+4. Rebuild the frontend and upload the newly generated `dist/` contents. Vite
+    replaces environment variables during the build; changing a cPanel setting
+    after upload cannot change an already-built JavaScript bundle.

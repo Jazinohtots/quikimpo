@@ -8,7 +8,7 @@ const sharp = require('sharp');
     const publicDir = path.join(projectRoot, 'public');
     const backendImages = path.resolve(projectRoot, '..', '..', 'quikimpo-backend', 'quikimpo-main', 'static', 'images');
 
-    const candidates = ['hero.jpg', 'hero.jpeg', 'hero.png', 'hero1.png'];
+    const candidates = ['hero.jpg', 'hero.jpeg', 'hero.png', 'hero1.jpg'];
     let src = null;
     for (const c of candidates) {
       const p = path.join(publicDir, c);

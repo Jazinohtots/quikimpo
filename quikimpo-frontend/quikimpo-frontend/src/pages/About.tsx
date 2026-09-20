@@ -1,6 +1,13 @@
+import Seo from "../components/Seo";
+
 export default function About() {
   return (
     <section className="mx-auto max-w-4xl px-6 py-20">
+      <Seo
+        title="About Us"
+        description="Learn about QuikImpo Freight & Logistics, a Nairobi-based freight forwarding company connecting East Africa to international trade routes."
+        path="/about"
+      />
       <h1 className="text-4xl font-extrabold text-ink">About QuikImpo</h1>
 
       <div className="mt-10 space-y-10">

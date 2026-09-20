@@ -52,6 +52,19 @@ def _within_chat_limit(request):
     return True
 
 
+def _is_honeypot_filled(request):
+    return bool(str(request.data.get('website', '')).strip())
+
+
+def _within_form_limit(request, form_name, max_attempts=5, window_seconds=3600):
+    key = f"form:{form_name}:{_client_ip(request)}"
+    count = cache.get(key, 0)
+    if count >= max_attempts:
+        return False
+    cache.set(key, count + 1, timeout=window_seconds)
+    return True
+
+
 def _faq_context():
     faqs = FAQ.objects.all()[:12]
     if not faqs:
@@ -88,6 +101,16 @@ class QuoteCreateAPIView(APIView):
     """POST /api/quote/ — same fields and behaviour as the quote.html form."""
 
     def post(self, request):
+        if _is_honeypot_filled(request):
+            return Response(
+                {'detail': 'Quote submitted! We will contact you within 2 hours.'},
+                status=status.HTTP_201_CREATED,
+            )
+        if not _within_form_limit(request, 'quote'):
+            return Response(
+                {'detail': 'Too many requests. Please try again later.'},
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
         serializer = QuoteRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         quote = serializer.save()
@@ -126,6 +149,16 @@ class ContactCreateAPIView(APIView):
     """POST /api/contact/ — same fields and behaviour as the contact.html form."""
 
     def post(self, request):
+        if _is_honeypot_filled(request):
+            return Response(
+                {'detail': 'Message sent! We will get back to you shortly.'},
+                status=status.HTTP_201_CREATED,
+            )
+        if not _within_form_limit(request, 'contact'):
+            return Response(
+                {'detail': 'Too many requests. Please try again later.'},
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
         serializer = ContactMessageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         msg = serializer.save()

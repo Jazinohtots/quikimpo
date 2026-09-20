@@ -2,6 +2,7 @@ import { useState } from "react";
 import { submitQuote } from "../services/api";
 import { QuoteRequestPayload } from "../types";
 import { contact } from "../data/contact";
+import Seo from "../components/Seo";
 
 const initialForm: QuoteRequestPayload = {
   full_name: "",
@@ -15,7 +16,11 @@ const initialForm: QuoteRequestPayload = {
   weight: "",
   dimensions: "",
   notes: "",
+  website: "",
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[0-9+()\-\s]{7,20}$/;
 
 export default function Quote() {
   const [form, setForm] = useState<QuoteRequestPayload>(initialForm);
@@ -27,6 +32,22 @@ export default function Quote() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.website) {
+      setFeedback("Quote submitted! We will contact you within 2 hours.");
+      setStatus("success");
+      setForm(initialForm);
+      return;
+    }
+    if (!EMAIL_RE.test(form.email)) {
+      setFeedback("Please enter a valid email address.");
+      setStatus("error");
+      return;
+    }
+    if (form.phone && !PHONE_RE.test(form.phone)) {
+      setFeedback("Please enter a valid phone number.");
+      setStatus("error");
+      return;
+    }
     setStatus("sending");
     try {
       const res = await submitQuote(form);
@@ -41,6 +62,11 @@ export default function Quote() {
 
   return (
     <section className="mx-auto max-w-2xl px-6 py-20">
+      <Seo
+        title="Request a Freight Quote"
+        description="Request a tailored freight forwarding quote for air, sea, road, customs clearance, and logistics services."
+        path="/quote"
+      />
       <h1 className="text-4xl font-extrabold text-ink">Request a Quote</h1>
       <p className="mt-3 text-text/70">
         Tell us what you're shipping and we'll get back to you within 2 hours.
@@ -52,7 +78,11 @@ export default function Quote() {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+      <form noValidate onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden">
+          <label htmlFor="quote-website">Leave this field empty</label>
+          <input id="quote-website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => update("website", e.target.value)} />
+        </div>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-semibold text-ink">Full Name *</label>

@@ -1,5 +1,126 @@
 # cPanel Deployment Guide
 
+## Fast Deployment Runbook
+
+Use this section for a first deployment or a normal release. The main website
+and API are deployed separately:
+
+| Service | Public address | cPanel location |
+| --- | --- | --- |
+| React website | `https://quikimpofreightlogistics.co.ke` | `public_html` |
+| Django API | `https://api.quikimpofreightlogistics.co.ke` | Setup Python App application root |
+
+### 1. Prepare the domain and subdomain
+
+1. In **cPanel > Domains**, confirm the main domain document root is
+    `public_html`.
+2. Create `api.quikimpofreightlogistics.co.ke` as a subdomain if it does not
+    already exist.
+3. In **Setup Python App**, stop or remove any Python application attached to
+    the main domain. The main domain must serve static React files, not a
+    Passenger app.
+4. Run AutoSSL for the root, `www`, and `api` hostnames. Do not enable the
+    Django HTTPS redirect until the `api` certificate is valid.
+
+### 2. Create the API application
+
+In **Setup Python App**, create an application with the values below. Replace
+`quikimpo` with the cPanel account username when it differs.
+
+```text
+Application URL:  api.quikimpofreightlogistics.co.ke/
+Application root: /home/quikimpo/quikimpo_backend
+Startup file:     passenger_wsgi.py
+Entry point:      application
+Python version:   the newest version cPanel offers that is supported by the app
+```
+
+Upload the **contents** of
+`quikimpo-backend/quikimpo-main/` into the application root. After upload, the
+root must contain `manage.py`, `requirements.txt`, `passenger_wsgi.py`,
+`freight/`, and `pos_system/` directly; do not leave them inside an extra
+`quikimpo-main` folder.
+
+### 3. Configure API environment variables
+
+In **Setup Python App**, add the variables below. Do not put any secret in Git
+or in `passenger_wsgi.py`.
+
+```text
+SECRET_KEY=<new, strong Django secret>
+DEBUG=False
+ALLOWED_HOSTS=api.quikimpofreightlogistics.co.ke,quikimpofreightlogistics.co.ke,www.quikimpofreightlogistics.co.ke
+CORS_ALLOWED_ORIGINS=https://quikimpofreightlogistics.co.ke,https://www.quikimpofreightlogistics.co.ke
+CSRF_TRUSTED_ORIGINS=https://quikimpofreightlogistics.co.ke,https://www.quikimpofreightlogistics.co.ke,https://api.quikimpofreightlogistics.co.ke
+SECURE_SSL_REDIRECT=True
+DATABASE_URL=<database URL from the cPanel database you created>
+EMAIL_HOST_USER=<sending Gmail address>
+EMAIL_HOST_PASSWORD=<Gmail app password>
+ANTHROPIC_API_KEY=<Anthropic API key>
+```
+
+Create the database and database user in **MySQL Databases**, assign the user
+to the database with full application privileges, and then use those real
+credentials for `DATABASE_URL`.
+
+### 4. Install and initialize Django
+
+Open **cPanel > Terminal**, copy the activation command displayed by Setup
+Python App, then run the following. The virtual-environment path is an example;
+use the path shown in your account.
+
+```bash
+source /home/quikimpo/virtualenv/quikimpo_backend/3.13/bin/activate
+cd /home/quikimpo/quikimpo_backend
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py check
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+Return to **Setup Python App** and click **Restart** after the commands finish.
+
+### 5. Build and upload the React website
+
+Build the frontend on a local machine with Node.js. This prevents the main site
+from depending on Node.js being available in cPanel.
+
+```bash
+cd quikimpo-frontend/quikimpo-frontend
+npm ci
+VITE_API_BASE_URL=https://api.quikimpofreightlogistics.co.ke/api npm run build
+```
+
+Optionally include `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` in the build command
+when Google Analytics is configured. It is a public measurement identifier,
+not a secret.
+
+In **File Manager**, remove the old contents of `public_html` but keep any
+hosting-owned files you need. Upload the **contents** of `dist/` directly into
+`public_html`, including `.htaccess`, `robots.txt`, `sitemap.xml`, icons, and
+the `assets/` directory. Do not upload the `dist` directory itself as a nested
+folder.
+
+### 6. Verify the release
+
+1. Open `https://api.quikimpofreightlogistics.co.ke/admin/`; it should return
+    a Django admin page or login screen.
+2. Open the main domain and test `/`, `/services`, `/quote`, `/tracking`,
+    `/privacy`, and an unknown route such as `/does-not-exist`.
+3. Submit a valid test quote or contact request and confirm it reaches the API.
+4. In browser Developer Tools, confirm API requests target
+    `https://api.quikimpofreightlogistics.co.ke/api/`, not `localhost`.
+
+### Updating a later release
+
+1. Upload changed backend files, rerun `pip install -r requirements.txt` only
+    when dependencies changed, then run `python manage.py migrate` and restart
+    the Python app.
+2. Rebuild the frontend with the same `VITE_API_BASE_URL` command and replace
+    the contents of `public_html` with the new `dist/` contents.
+3. Repeat the verification steps above.
+
 ## What to do with the current main-domain Python app
 
 The Python application currently attached to `quikimpofreightlogistics.co.ke/` must **not** remain attached to the main domain. Stop or delete that application in **cPanel > Setup Python App** before deploying the frontend. The main domain will serve the React static files from `public_html`; a Passenger application there can take over the domain and prevent Apache from serving the React app.

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { submitContact } from "../services/api";
 import { ContactMessagePayload } from "../types";
+import Seo from "../components/Seo";
 
 const initialForm: ContactMessagePayload = {
   full_name: "",
@@ -8,7 +9,11 @@ const initialForm: ContactMessagePayload = {
   phone: "",
   subject: "",
   message: "",
+  website: "",
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[0-9+()\-\s]{7,20}$/;
 
 export default function Contact() {
   const [form, setForm] = useState<ContactMessagePayload>(initialForm);
@@ -20,6 +25,22 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.website) {
+      setFeedback("Message sent! We will get back to you shortly.");
+      setStatus("success");
+      setForm(initialForm);
+      return;
+    }
+    if (!EMAIL_RE.test(form.email)) {
+      setFeedback("Please enter a valid email address.");
+      setStatus("error");
+      return;
+    }
+    if (form.phone && !PHONE_RE.test(form.phone)) {
+      setFeedback("Please enter a valid phone number.");
+      setStatus("error");
+      return;
+    }
     setStatus("sending");
     try {
       const res = await submitContact(form);
@@ -34,6 +55,11 @@ export default function Contact() {
 
   return (
     <section className="mx-auto max-w-xl px-6 py-20">
+      <Seo
+        title="Contact Us"
+        description="Contact QuikImpo Freight & Logistics for freight forwarding, customs clearance, shipment tracking, and logistics support."
+        path="/contact"
+      />
       <h1 className="text-4xl font-extrabold text-ink">Contact Us</h1>
       <p className="mt-3 text-text/70">Questions about a shipment, a quote, or anything else — reach out.</p>
 
@@ -43,7 +69,11 @@ export default function Contact() {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+      <form noValidate onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden">
+          <label htmlFor="contact-website">Leave this field empty</label>
+          <input id="contact-website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => update("website", e.target.value)} />
+        </div>
         <div>
           <label className="mb-1 block text-sm font-semibold text-ink">Full Name *</label>
           <input

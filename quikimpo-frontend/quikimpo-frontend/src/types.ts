@@ -13,6 +13,7 @@ export interface QuoteRequestPayload {
   weight?: string;
   dimensions?: string;
   notes?: string;
+  website?: string;
 }
 
 export interface ContactMessagePayload {
@@ -21,6 +22,7 @@ export interface ContactMessagePayload {
   phone?: string;
   subject: "" | "quote" | "tracking" | "customs" | "complaint" | "partnership" | "other";
   message: string;
+  website?: string;
 }
 
 export type ShipmentStatus =

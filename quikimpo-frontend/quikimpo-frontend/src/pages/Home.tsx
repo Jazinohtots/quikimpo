@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { fetchFAQs } from "../services/api";
 import { FAQ } from "../types";
 import TestimonialsSection from "../components/TestimonialsSection";
+import Seo from "../components/Seo";
 
 const fallbackFaqs: FAQ[] = [
   {
@@ -86,6 +87,11 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="QuikImpo Freight & Logistics"
+        description="Fast, reliable freight forwarding, customs clearance, and logistics across Kenya, East Africa, and worldwide."
+        path="/"
+      />
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink">
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/95 to-ink/80" />

@@ -1,8 +1,14 @@
 import TestimonialsSection from "../components/TestimonialsSection";
+import Seo from "../components/Seo";
 
 export default function ClientReviews() {
   return (
     <>
+      <Seo
+        title="Client Reviews"
+        description="Read reviews from businesses across Africa and beyond that trust QuikImpo to move their cargo."
+        path="/reviews"
+      />
       {/* Hero section */}
       <section className="bg-ink py-16 text-white md:py-20">
         <div className="mx-auto max-w-6xl px-6 text-center">

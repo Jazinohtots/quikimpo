@@ -18,8 +18,8 @@ export const services: ServiceItem[] = [
     icon: "✈️",
     title: "Air Freight",
     description: "Fast, time-critical air cargo to and from major hubs worldwide, with door-to-door or airport-to-airport options.",
-    image: "/AirFr 1.png",
-    detailImage: "/AirF 2.png",
+    image: "/AirFr 1.jpg",
+    detailImage: "/AirF 2.jpg",
     longDescription:
       "QuikImpo coordinates time-sensitive air cargo through a network of airlines, cargo handlers, clearing agents, and logistics partners connecting Kenya with China, the UAE, Europe, and other international markets. Our network allows us to coordinate shipments through different airports and cargo hubs rather than relying on a single gateway, giving businesses greater flexibility when planning international air freight.\n\nWe handle the key stages of the shipment, including booking, export documentation, cargo handling, customs clearance, arrival processing, and onward transportation. Where suitable, smaller shipments can be consolidated to help manage freight costs, while early preparation of documentation can help reduce avoidable delays when cargo arrives.\n\nOur team remains involved throughout the shipment rather than simply making a booking and leaving the rest to different providers. Commercial invoices, packing lists, airway bills, and other required documents are reviewed and coordinated according to the shipment requirements, helping keep the cargo moving through the relevant stages.\n\nWhether you are importing commercial goods, exporting products, or moving time-sensitive cargo, QuikImpo combines international air freight connections with local customs and logistics coordination to provide greater visibility, practical solutions, and dependable support from origin to final delivery.",
   },

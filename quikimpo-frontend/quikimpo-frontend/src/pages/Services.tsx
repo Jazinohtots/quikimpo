@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { services } from "../data/services";
+import Seo from "../components/Seo";
 
 export default function Services() {
   const location = useLocation();
@@ -14,6 +15,11 @@ export default function Services() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
+      <Seo
+        title="Our Services"
+        description="Air freight, sea freight, road freight, customs clearance, warehousing, and shipment tracking for every stage of your cargo journey."
+        path="/services"
+      />
       <h1 className="text-center text-4xl font-extrabold text-ink">Our Services</h1>
       <p className="mx-auto mt-4 max-w-2xl text-center text-text/70">
         Whatever you're shipping and wherever it's going, QuikImpo handles the

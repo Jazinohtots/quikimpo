@@ -190,9 +190,9 @@ export default function Footer() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-xs text-white/50 md:flex-row">
           <p>© {new Date().getFullYear()} QuikImpo Freight & Logistics. All rights reserved.</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms of Service</a>
-            <a href="#" className="hover:text-white">Cookie Policy</a>
+            <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-white">Terms of Service</Link>
+            <Link to="/cookie-policy" className="hover:text-white">Cookie Policy</Link>
           </div>
         </div>
         <p className="mt-4 text-center text-sm font-semibold tracking-wide text-white/70">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { trackShipment } from "../services/api";
 import { Shipment } from "../types";
+import Seo from "../components/Seo";
 
 const steps = [
   "Order Confirmed",
@@ -31,6 +32,11 @@ export default function Tracking() {
 
   return (
     <>
+      <Seo
+        title="Track Your Shipment"
+        description="Track your QuikImpo shipment by entering your tracking number."
+        path="/tracking"
+      />
       <section className="bg-ink py-20 text-center text-white">
         <div className="mx-auto max-w-2xl px-6">
           <h1 className="text-4xl font-extrabold">Track Your Shipment</h1>

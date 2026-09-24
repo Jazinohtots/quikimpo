@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone, Mail, Clock, Linkedin, Facebook, Globe2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Globe2 } from "lucide-react";
 import Logo from "./Logo";
+import QuickConnectDock from "./QuickConnectDock";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { services } from "../data/services";
 import { contact } from "../data/contact";
@@ -85,35 +86,21 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="mt-4 flex items-center gap-3">
-            <a
-              href={contact.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href={contact.facebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
-            >
-              <Facebook size={16} />
-            </a>
-            <a
-              href={contact.whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className="rounded-full border border-white/20 p-2 hover:border-sky hover:text-sky"
-            >
-              <WhatsAppIcon size={16} />
-            </a>
-          </div>
+          <QuickConnectDock
+            className="mt-4"
+            socialClassName="flex items-center gap-3"
+            middleAction={
+              <a
+                href={contact.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat on WhatsApp"
+                className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-full border border-white/20 text-white/80 transition-all duration-300 ease-in-out hover:border-sky hover:bg-white/10 hover:text-sky"
+              >
+                <WhatsAppIcon size={17} />
+              </a>
+            }
+          />
         </div>
 
         <div>
@@ -158,25 +145,13 @@ export default function Footer() {
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={16} />
-              <a href={`mailto:${contact.email}`} className="hover:text-sky">{contact.email}</a>
+              <Mail size={16} className="shrink-0" />
+              <a href={`mailto:${contact.email}`} className="whitespace-nowrap text-xs hover:text-sky">{contact.email}</a>
             </li>
             <li className="flex items-center gap-2">
               <WhatsAppIcon size={16} />
               <a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
                 {contact.whatsappNumber}
-              </a>
-            </li>
-            <li className="flex items-center gap-2">
-              <Linkedin size={16} />
-              <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
-                {contact.linkedinLabel}
-              </a>
-            </li>
-            <li className="flex items-center gap-2">
-              <Facebook size={16} />
-              <a href={contact.facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:text-sky">
-                {contact.facebookLabel}
               </a>
             </li>
             <li className="flex items-center gap-2">

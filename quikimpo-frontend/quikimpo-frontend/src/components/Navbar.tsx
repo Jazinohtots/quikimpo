@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Mail, Clock, ChevronDown, Linkedin, Facebook } from "lucide-react";
+import { Menu, X, Mail, Clock, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
+import QuickConnectDock from "./QuickConnectDock";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { services } from "../data/services";
 import { contact } from "../data/contact";
@@ -30,29 +31,18 @@ export default function Navbar() {
             <Clock size={12} /> Mon–Sat 8am–6pm EAT
           </span>
           <div className="flex justify-self-end gap-4">
-            <a
-              href={contact.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-white"
-            >
-              <Linkedin size={13} /> LinkedIn
-            </a>
-            <a
-              href={contact.facebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-white"
-            >
-              <Facebook size={13} /> Facebook
-            </a>
+            <QuickConnectDock
+              className="relative w-auto"
+              dockClassName="absolute right-0 top-full z-50 w-[min(24rem,calc(100vw-3rem))]"
+            />
             <a
               href={contact.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-white"
+              aria-label="Chat on WhatsApp"
+              className="flex min-h-10 min-w-10 items-center justify-center rounded-full border border-white/20 text-white/80 transition-all duration-300 ease-in-out hover:border-sky hover:bg-white/10 hover:text-sky"
             >
-              <WhatsAppIcon size={13} /> WhatsApp
+              <WhatsAppIcon size={17} />
             </a>
           </div>
         </div>
